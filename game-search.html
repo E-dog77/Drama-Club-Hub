@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drama Game Search</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #333;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-right: 10px;
+      padding: 8px 12px;
+      background-color: #444;
+      border-radius: 4px;
+    }
+
+    nav a:hover, nav a:focus {
+      background-color: #666;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      border: 5px solid #d4af37; /* gold leaf style border */
+    }
+
+    .skill {
+      margin-bottom: 12px;
+    }
+
+    .skill label {
+      font-weight: bold;
+    }
+
+    .results {
+      margin-top: 30px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      font-size: 1em;
+      background-color: #d4af37;
+      color: #222;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c49e2d;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #0055a5;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="drama-games.html">Drama Games</a>
+  <a href="sessions.html">Sessions</a>
+  <a href="structure.html">Structure</a>
+  <a href="skills.html">Key Skills</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="improv-tips.html">Improv Tips</a>
+  <a href="guidelines.html">Guidelines</a>
+  <a href="game-search.html">Game Search</a>
+  <a href="add-a-game.html">Add a Game</a>
+</nav>
+
+<div class="section">
+  <h1>Find Drama Games by Skill</h1>
+  <p>Select the skills you want to practice and click <strong>Find Matching Games</strong>.</p>
+
+  <div id="skills">
+    <!-- Each skill checkbox and description -->
+    <div class="skill"><input type="checkbox" value="P" /> <label>Presence</label>: Commanding attention on stage with energy and awareness.</div>
+    <div class="skill"><input type="checkbox" value="VC" /> <label>Voice Control</label>: Adjusting pitch, tone, and volume intentionally.</div>
+    <div class="skill"><input type="checkbox" value="B" /> <label>Body Language</label>: Communicating emotion and status through movement.</div>
+    <div class="skill"><input type="checkbox" value="ER" /> <label>Emotional Range</label>: Expressing subtle to extreme emotions authentically.</div>
+    <div class="skill"><input type="checkbox" value="T" /> <label>Timing and Rhythm</label>: Controlling pace for dramatic or comedic effect.</div>
+    <div class="skill"><input type="checkbox" value="LR" /> <label>Listening & Reacting</label>: Responding honestly to scene partners.</div>
+    <div class="skill"><input type="checkbox" value="M" /> <label>Memorisation & Recall</label>: Learning lines and blocking effectively.</div>
+    <div class="skill"><input type="checkbox" value="MU" /> <label>Musicality</label>: Using rhythm and pitch in performance.</div>
+    <div class="skill"><input type="checkbox" value="C" /> <label>Coordination</label>: Physical control for movement and combat.</div>
+    <div class="skill"><input type="checkbox" value="S" /> <label>Stamina</label>: Sustaining focus and energy throughout sessions.</div>
+    <div class="skill"><input type="checkbox" value="SA" /> <label>Spatial Awareness</label>: Knowing where you and others are on stage.</div>
+    <div class="skill"><input type="checkbox" value="D" /> <label>Discipline</label>: Focus, reliability, and rehearsal respect.</div>
+    <div class="skill"><input type="checkbox" value="AD" /> <label>Adaptability</label>: Flexibility and responding to changes.</div>
+    <div class="skill"><input type="checkbox" value="CL" /> <label>Collaboration</label>: Working well with others in performance.</div>
+    <div class="skill"><input type="checkbox" value="Z" /> <label>Resilience</label>: Handling mistakes and bouncing back.</div>
+    <div class="skill"><input type="checkbox" value="CH" /> <label>Characterisation</label>: Creating strong and believable characters.</div>
+    <div class="skill"><input type="checkbox" value="I" /> <label>Imagination</label>: Inventing characters, worlds, and actions.</div>
+    <div class="skill"><input type="checkbox" value="X" /> <label>Expressiveness</label>: Showing emotions clearly with body and voice.</div>
+    <div class="skill"><input type="checkbox" value="DR" /> <label>Dramaturgy</label>: Understanding script structure and context.</div>
+    <div class="skill"><input type="checkbox" value="J" /> <label>Projection</label>: Making your voice heard across a space.</div>
+    <div class="skill"><input type="checkbox" value="A" /> <label>Articulation</label>: Speaking clearly and with precision.</div>
+    <div class="skill"><input type="checkbox" value="F" /> <label>Confidence</label>: Performing boldly and without fear.</div>
+    <div class="skill"><input type="checkbox" value="H" /> <label>Substitution (Hagen)</label>: Using personal emotion in performance.</div>
+  </div>
+
+  <button onclick="filterGames()">Find Matching Games</button>
+
+  <div class="results" id="results">
+    <h2>Matching Games:</h2>
+    <ul id="gameList"></ul>
+  </div>
+</div>
+
+<script>
+  const games = [
+    { name: "Change!", skills: ["I", "T", "ER", "LR", "AD", "CL", "F", "VC", "IM", "Z"] },
+    { name: "Freeze Frames", skills: ["IM", "CL", "C", "SA", "CO", "I", "D", "B", "X", "S"] },
+    { name: "Bang!!", skills: ["LR", "D", "F", "VC", "P", "S", "AD"] },
+    { name: "Freeze Tag", skills: ["I", "C", "IM", "T", "LR", "SA", "CH", "AD", "F"] },
+    { name: "Puppets", skills: ["CL", "C", "CO", "B", "SA"] },
+    { name: "Time-warp", skills: ["IM", "CH", "T", "ER", "AD", "F", "I", "LR", "VC"] },
+    { name: "One Word Per Person", skills: ["CL", "T", "LR", "VC", "AD", "A", "F"] },
+    { name: "321", skills: ["I", "ER", "F", "CH", "LR", "VC", "CL"] },
+    { name: "Death in a Minute", skills: ["I", "CL", "CH", "ER", "T", "X", "VC", "IM"] },
+    { name: "Yes, And...", skills: ["CL", "I", "LR", "VC", "F", "ER", "AD", "IM"] },
+    { name: "Press Conference", skills: ["CH", "IM", "LR", "VC", "A", "I", "ER", "F"] },
+    { name: "Emotional Party Guests", skills: ["X", "ER", "CH", "B", "VC", "F", "CL"] },
+    { name: "What Are You Doing?", skills: ["I", "T", "LR", "AD", "CO", "IM", "F"] },
+    { name: "Pass the Energy Ball", skills: ["IM", "VC", "CO", "X", "F", "CL"] },
+    { name: "Machine Game", skills: ["CL", "CO", "IM", "B", "X", "S"] },
+    { name: "Three-Word Scenes", skills: ["ER", "VC", "A", "T", "LR"] },
+    { name: "Mirror", skills: ["C", "SA", "B", "D"] },
+    { name: "Energy Circle", skills: ["VC", "F", "LR", "CO", "X"] },
+    { name: "Clap Your Hands Game", skills: ["F", "SA", "T", "LR", "D", "CL"] },
+    { name: "Open Scripts", skills: ["MR", "CH", "ER", "VC", "PJ", "A", "F", "X", "DR"] },
+    { name: "Honey, I Love You", skills: ["F", "ER", "VC", "D", "LR"] },
+    { name: "Gibberish Translator", skills: ["VC", "T", "LR", "B", "IM", "X", "F", "AD", "CL", "A", "P", "PJ"] },
+    { name: "Andy’s Coming", skills: ["F", "LR", "SA", "CO", "P"] },
+    { name: "Disney Recreations", skills: ["CH", "VC", "X", "IM", "ER", "CL", "B", "PJ"] },
+    { name: "Word Associations", skills: ["LR", "A", "T", "CL", "F"] }
+  ];
+
+  function filterGames() {
+    const selected = Array.from(document.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value);
+    const list = document.getElementById("gameList");
+    list.innerHTML = '';
+
+    if (selected.length === 0) {
+      list.innerHTML = "<li>Please select at least one skill to search.</li>";
+      return;
+    }
+
+    const matches = games.filter(game =>
+      selected.every(code => game.skills.includes(code))
+    );
+
+    if (matches.length === 0) {
+      list.innerHTML = "<li>No games match all selected skills. Try fewer selections!</li>";
+    } else {
+      matches.forEach(game => {
+        const item = document.createElement("li");
+        item.innerHTML = `<span class="highlight">${game.name}</span>`;
+        list.appendChild(item);
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
